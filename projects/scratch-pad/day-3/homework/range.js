@@ -23,7 +23,15 @@
  */
 function range(start, end) {
     // YOUR CODE GOES BELOW HERE //
-    
+    // array storage
+    var result = [];
+    //determine the direction of the range
+    var step = start <= end ? 1 : -1;
+    // iterrate over the range of integers and then use the push method to push them into the array
+    for (var i = start; i !== end + step; i += step){
+        result.push(i);
+    }
+    return result;
     
     
     

@@ -13,8 +13,13 @@
  */
 function createGreaterThanFilter(base) {
     // YOUR CODE BELOW HERE //
-    
-    
+    // return the function taht can test if a value is greater than the base
+    return function(value) {
+        if (typeof base === 'number' || typeof base === 'string') {
+            return value > base;
+
+        }
+    }
     
     
     // YOUR CODE ABOVE HERE //
@@ -27,7 +32,12 @@ function createGreaterThanFilter(base) {
  */
 function createLessThanFilter(base) {
     // YOUR CODE BELOW HERE //
-    
+    return function(value) {
+        if (typeof base === 'number' || typeof base === 'string') {
+            return value < base;
+
+        }
+    }
     
     
     
@@ -41,12 +51,15 @@ function createLessThanFilter(base) {
  */
 function createStartsWithFilter(startsWith) {
     // YOUR CODE BELOW HERE //
-    
-    
-    
+    return function(str) {
+        if (typeof startsWith === 'string' && startsWith.length === 1){
+            return str.startsWith(startsWith);
+        } 
+        
+    }
     
     // YOUR CODE ABOVE HERE //
-}
+    }
 
 /** 
  * Given a endsWith character, which will be a single character, return a 
@@ -55,8 +68,11 @@ function createStartsWithFilter(startsWith) {
  */
 function createEndsWithFilter(endsWith) {
     // YOUR CODE BELOW HERE //
-    
-    
+    return function(str) {
+        if (typeof endsWith === 'string' && endsWith.length === 1) {
+            return str.endsWith(endsWith);
+        }
+    }
     
     
     // YOUR CODE ABOVE HERE //
@@ -71,12 +87,23 @@ function createEndsWithFilter(endsWith) {
  */
 function modifyStrings(strings, modify) {
     // YOUR CODE BELOW HERE //
+     // Create an array to collect the modified strings
+     var modifiedArray = [];
     
+     // Loop over each string in the array
+     for (var i = 0; i < strings.length; i++) {
+         // Apply the modify function to each string and add the result to the modified array
+         modifiedArray.push(modify(strings[i]));
+     }
+ 
+     // Return the modified array
+     return modifiedArray;
+ }
     
     
     
     // YOUR CODE ABOVE HERE //
-}
+
 
 /** 
  * Given an Array of Strings and a Function designed to test the String in some 
@@ -89,7 +116,8 @@ function modifyStrings(strings, modify) {
  */
 function allStringsPass(strings, test) {
     // YOUR CODE BELOW HERE //
-    
+     // Use the every method to check if all strings pass the test
+     return strings.every(test);
     
     
     
