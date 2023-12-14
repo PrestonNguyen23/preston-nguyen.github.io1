@@ -51,12 +51,12 @@ function createLessThanFilter(base) {
  */
 function createStartsWithFilter(startsWith) {
     // YOUR CODE BELOW HERE //
-    return function(str) {
-        if (typeof startsWith === 'string' && startsWith.length === 1){
-            return str.startsWith(startsWith);
-        } 
-        
-    }
+    const startsWithLowerCase = startsWith.toLowerCase();
+
+    return function (str) {
+        const strLowerCase = str.toLowerCase();
+        return strLowerCase.startsWith(startsWithLowerCase);
+    };
     
     // YOUR CODE ABOVE HERE //
     }
@@ -68,12 +68,12 @@ function createStartsWithFilter(startsWith) {
  */
 function createEndsWithFilter(endsWith) {
     // YOUR CODE BELOW HERE //
-    return function(str) {
-        if (typeof endsWith === 'string' && endsWith.length === 1) {
-            return str.endsWith(endsWith);
-        }
-    }
-    
+    const endsWithLowerCase = endsWith.toLowerCase();
+
+    return function (str) {
+        const strLowerCase = str.toLowerCase();
+        return strLowerCase.endsWith(endsWithLowerCase);
+    };
     
     // YOUR CODE ABOVE HERE //
 }
