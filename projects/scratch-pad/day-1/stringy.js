@@ -73,7 +73,27 @@ return dash;
 
     // YOUR CODE ABOVE HERE //
 }
+/**Given an input String and a single character, return true if the String
+ * begins with the character, false otherwise. The Function is case insensitive.
+ *
+ * Example:
+ *
+ *      beginsWith('Max', 'm'); // => true;
+ *      beginsWith('Max', 'z'); // => false;
+ *
+ * TIP: How can you use Array access to your advantage here? How can you
+ *      ensure uppercase and lowercase can be compared equally?
+ */
+function beginsWith(string, char) {
+    // YOUR CODE BELOW HERE //
+// Convert the first character of the string and the specified character to lowercase
+const firstChar = string[0].toLowerCase();
+const specifiedChar = char.toLowerCase();
 
+// Check if the first character matches the specified character
+return firstChar === specifiedChar;
+    // YOUR CODE ABOVE HERE //
+}
 
 
 
@@ -91,8 +111,6 @@ return dash;
  */
 function endsWith(string, char) {
     // YOUR CODE BELOW HERE //
-
- // YOUR CODE BELOW HERE //
     // make the parameters case insensitive
     var lowerCaseString = string.toLowerCase();
     var lowerCaseChar = char.toLowerCase();
