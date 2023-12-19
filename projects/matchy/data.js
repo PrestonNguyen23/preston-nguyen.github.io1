@@ -70,9 +70,9 @@ console.log(animal);
  * Step 4 - Review
  *
  * 1. What are the different ways you can access properties on objects?
- *
+ * Dot notation, bracket notation, and object destructuring
  * 2. What are the different ways of accessing elements on arrays?
- *
+ *indexing, array method, and array destructuring.
  * *******************************************************************
  */
 
@@ -88,12 +88,81 @@ console.log(animal);
 //////////////////////////////////////////////////////////////////////
 // Step 6 - A Collection of Animals //////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+// create a variable name animal and assign an empty array
+// create a variable name animal and assign an empty array
+var animals = [];
 
+// push "animal" to the created "animals"
+animals.push(animal);
 
+// console log animals
+console.log(animals);
+
+// create a variable duck and assign it to the data
+let duck = {
+  species: 'duck',
+  name: 'Jerome',
+  noises: ['quack', 'honk', 'sneeze', 'woosh']
+}
+
+// push duck to animals
+animals.push(duck);
+
+console.log(animals);
+
+// create two more animal object with species, name, and noises
+let tiger = {
+  species: 'tiger',
+  name: 'Albert',
+  noises: ['growl', 'roar']
+}
+let bear = {
+  species: 'bear',
+  name: 'Bob',
+  noises: ['growl', 'growling']
+} 
+animals.push(tiger, bear);
+console.log(animals);
+console.log(animals.length);
 
 //////////////////////////////////////////////////////////////////////
 // Step 7 - Making Friends ///////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+// I chose an array to store a list of friends because its a simple and ordered collection.
+
+var friends = [];
+
+
+// 5. [ ] Write a function called `getRandom` that takes our `animals` array
+// and returns a random `index` of the input array, using `Math.random`
+function getRandom(arr) {
+  return Math.floor(Math.random() * arr.length);
+}
+
+// 6. [ ] Using a random index from this function that you just created,
+// get a random animal and add its `name` to `friends`.
+let randomIndex = getRandom(animals);
+let randomAnimal = animals[randomIndex];
+friends.push(randomAnimal.name);
+
+// 7. [ ] `console.log` `friends`.
+console.log(friends.join(', ')); // Join the array into a string for better visualization
+
+// 8. [ ] Using bracket notation, add the `friends` list as a property also named `friends`
+// on one of the animals in the `animals` array.
+let chosenAnimalIndex = getRandom(animals);
+animals[chosenAnimalIndex]['friends'] = friends.map(String); // Convert names to strings
+
+// Ensure at least one animal has a `friends` array
+if (chosenAnimalIndex === 0) {
+  let anotherAnimalIndex = getRandom(animals.slice(1));
+  animals[anotherAnimalIndex]['friends'] = []; // Ensure it's an array
+} else {
+  animals[0]['friends'] = []; // Ensure the first animal also has a `friends` array
+}
+
+// 9. [ ] `console.log` your work.
+console.log(animals);
 
 
 

@@ -12,24 +12,58 @@
 //////////////////////////////////////////////////////////////////////
 // Step 1 - Search ///////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-
+function search(animal, name) {
+    for (let animal of animals) {
+        if (animal.name === name) {
+            return animal;
+        }
+    }
+    return null;
+}
 
 
 //////////////////////////////////////////////////////////////////////
 // Step 2 - Replace //////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-
+function replace(animals, name, replacement) {
+    for (let i = 0; i < animals.length; i++) {
+        if (animals[i].name === name) {
+            animals[i] = replacement;
+            break;
+        }
+    }
+}
 
 
 //////////////////////////////////////////////////////////////////////
 // Step 3 - Remove ///////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-
+function remove(animals, name) {
+    for (let i = 0; i < animals.length; i++) {
+        if (animals[i].name === name) {
+            animals.splice(i, 1);
+            break;
+        }
+    }
+}
 
 
 //////////////////////////////////////////////////////////////////////
 // Step 4 - Add ///////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
+function add(animals, animal) {
+    if (animal.name && animal.name.length > 0 && animal.species && animal.species.length > 0) {
+        // check for a unique name
+        let isUnique = animals.every(exisitingAnimal => exisitingAnimal.name !== animal.name);
+        if (isUnique) {
+            animals.push(animal);
+          } else {
+            console.error('Error: Animal with the same name already exists.');
+          }
+        } else {
+          console.error('Error: Animal must have a name and species with a length greater than 0.');
+        }
+    }
 
 
 
