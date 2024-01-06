@@ -86,27 +86,27 @@ _.typeOf = function(value) {
 *   _.first(["a", "b", "c"], 2) -> ["a", "b"]
 */
 _.first = function(array, number) {
-  // Check if <array> is not an array, return []
+  // Check if array is not an array, return []
   if (!Array.isArray(array)) {
     return [];
   }
 
-  // If <number> is not given or not a number, return just the first element in <array>
+  // If number is not given or not a number, return just the first element in array
   if (typeof number !== 'number' || number === undefined) {
     return array[0];
   }
 
-  // Handle edge case: What if <number> is negative?
+  // Handle edge case: What if number is negative?
   if (number < 0) {
     return [];
   }
 
-  // Handle edge case: What if <number> is greater than <array>.length?
+  // Handle edge case: What if number is greater than array.length?
   if (number > array.length) {
     return array;
   }
 
-  // Return the first <number> items of <array>
+  // Return the first number items of array
   return array.slice(0, number);
 };
 
@@ -128,27 +128,27 @@ _.first = function(array, number) {
 *   _.last(["a", "b", "c"], 2) -> ["b", "c"]
 */
 _.last = function(array, number) {
-  // Check if <array> is not an array, return []
+  // Check if array is not an array, return []
   if (!Array.isArray(array)) {
     return [];
   }
 
-  // If <number> is not given or not a number, return just the last element in <array>
+  // If number is not given or not a number, return just the last element in array
   if (typeof number !== 'number' || number === undefined) {
     return array[array.length - 1];
   }
 
-  // Handle edge case: What if <number> is negative?
+  // Handle edge case: What if number is negative?
   if (number < 0) {
     return [];
   }
 
-  // Handle edge case: What if <number> is greater than <array>.length?
+  // Handle edge case: What if number is greater than <array>.length?
   if (number >= array.length) {
     return array;
   }
 
-  // Return the last <number> items of <array>
+  // Return the last number items of array
   return array.slice(array.length - number);
 };
 
@@ -223,22 +223,15 @@ _.contains = function(array, value) {
 */
 _.each = function(collection, iteratee) {
   // Check if <collection> is an array
-  if (Array.isArray(collection)) {
-    // Iterate over array elements
-    for (let i = 0; i < collection.length; i++) {
-      // Call <function> for each element with arguments: element, index, <collection>
-      iteratee(collection[i], i, collection);
+  if(Array.isArray(collection)) {
+    for(var i = 0; i < collection.length; i++) {
+        action(collection[i], i, collection);
     }
-  } else if (typeof collection === 'object') {
-    // Iterate over object properties
-    for (const key in collection) {
-      // Ensure the key is a direct property of the object, not from the prototype chain
-      if (collection.hasOwnProperty(key)) {
-        // Call <function> for each property with arguments: value, key, <collection>
-        iteratee(collection[key], key, collection);
-      }
+} else {
+    for (var key in collection) {
+        action(collection[key], key, collection);
     }
-  }
+}
 };
 
 /** _.unique
