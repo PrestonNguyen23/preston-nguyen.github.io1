@@ -240,11 +240,12 @@ function filter(array, predicate) {
 };
   
 /**
- * reject :
- * @param {*} array :
- * @param {*} predicate :
- * @returns :
+ * reject : Creates a new array containing elements that do not satisfy a specified predicate function.
+ * @param {Array} array : The array to be filtered
+ * @param {Function} predicate : A function applied to each element in the array.
+ * @returns {Array}: A new array containing elements that do not satisfy the predicate condition.
  */
+ 
 function reject(array, predicate) {
   // Initialize a new array to store rejected elements
   const rejectedArray = [];
@@ -261,4 +262,170 @@ function reject(array, predicate) {
 
   // Return the rejected array
   return rejectedArray;
+};
+/**
+ * Partition : Partitions an array into two separate arrays based on a specified predicate function.
+ * @param {Array} array : The array to be partitioned.
+ * @param {Function} predicate : A function applied to each element in the array. Should return truthy for elements to be included in the first array
+ * and falsy for elements to be included in the second array.
+ * @returns {Array} :  An array containing two sub-arrays:
+ *  - The first sub-array contains elements for which the predicate returns truthy.
+ *  - The second sub-array contains elements for which the predicate returns falsy.
+ */
+function partition(array, predicate) {
+  // Initialize arrays to store truthy and falsy values
+  const truthyArray = [];
+  const falsyArray = [];
+
+  // Use _.each to iterate through the array
+  _.each(array, function(element, index, arr) {
+    // Call <function> for each element with arguments: element, index, <array>
+    // Check if the result of calling <function> is truthy or falsy
+    if (predicate(element, index, arr)) {
+      // If truthy, add the element to the truthyArray
+      truthyArray.push(element);
+    } else {
+      // If falsy, add the element to the falsyArray
+      falsyArray.push(element);
+    }
+  });
+
+  // Return an array containing the truthy and falsy arrays
+  return [truthyArray, falsyArray];
+};
+/**
+ * Pluck : Extracts values for a specified property from an array of objects. It uses _.map to iterate through each object in the array,
+ * extracting the value of the specified property for each object.
+ * @param {Array} arrayOfObjects :  An array of objects from which to extract values.
+ * @param {String} property : The property for which values will be extracted from each object.
+ * @returns {Array}: An array containing the values of the specified property from each object.
+ */
+ 
+function pluck(arrayOfObjects, property) {
+  // Use _.map to create an array of values for the specified property
+  return _.map(arrayOfObjects, function(obj) {
+    // Return the value of the specified property for each object
+    return obj[property];
+  });
+};
+
+/**
+ * Every: Checks if every element in a collection satisfies a specified condition.
+ * If no condition function is provided, it checks if every element is truthy.
+ * @param {Array|Object} collection : The collection to be checked.
+ * @param {Function} func : A condition function applied to each element in the collection.
+ * Should return true for elements that satisfy the condition.
+ * @returns {boolean} : True if every element satisfies the condition, otherwise false.
+ */
+function every(collection, func) {
+  // If function is not provided, check if every element is truthy
+  if (func === undefined) {
+    return collection.every(element => Boolean(element));
+  }
+
+  // Check if every element satisfies the condition provided by the function
+  if (Array.isArray(collection)) {
+    // If collection is an array, iterate over elements
+    for (let i = 0; i < collection.length; i++) {
+      if (!func(collection[i], i, collection)) {
+        return false;
+      }
+    }
+  } else if (typeof collection === 'object') {
+    // If collection is an object, iterate over values
+    for (const key in collection) {
+      if (collection.hasOwnProperty(key)) {
+        if (!func(collection[key], key, collection)) {
+          return false;
+        }
+      }
+    }
+  }
+
+  // If all elements satisfy the condition, return true
+  return true;
+};
+
+/**
+ * Some: Checks if at least one element in a collection satisfies a specified condition.
+ * If no condition function is provided, it checks if at least one element is truthy.
+ * @param {Array|Object} collection : The collection to be checked.
+ * @param {Function} func : A condition function applied to each element in the collection.
+ * Should return true for elements that satisfy the condition.
+ * @returns {boolean}: True if at least one element satisfies the condition, otherwise false.
+ */
+function some(collection, func) {
+  // Default value for the result
+  let result = false;
+
+  // Use _.each to iterate through the collection
+  _.each(collection, function(element, index, arr) {
+    // Call <function> for every element with the parameters specified
+    const condition = func ? func(element, index, arr) : element;
+
+    // Check if the return value is truthy
+    if (condition) {
+      // If true, update the result and break the loop
+      result = true;
+      return false;
+    }
+  });
+
+  // Return the final result
+  return result;
+};
+
+/**
+ * Reduce : Reduces an array to a single value by applying a specified function to each element. The function takes the previous result,
+ * current element, and current index as parameters and returns a new result.
+ * @param {Array} array : The array to be reduced.
+ * @param {Function} func :A function that takes the previous result, current element, and current index
+ * and returns a new result.
+ * @param {*} seed : The initial value to use as the "previous result" in the reduction.
+ * @returns : The final result after applying the function to each element in the array.
+ */
+ 
+function reduce(array, func, seed) {
+  // Initialize the "previous result" with the seed or the first element of the array
+  let previousResult = seed !== undefined ? seed : array[0];
+
+  // Determine the starting index based on whether a seed was provided
+  const startIndex = seed !== undefined ? 0 : 1;
+
+  // Use _.each to iterate through the array starting from the appropriate index
+  _.each(array.slice(startIndex), function(element, index) {
+    // Call <function> for every element with the specified arguments
+    previousResult = func(previousResult, element, index + startIndex);
+  });
+
+  // Return the final result after all iterations
+  return previousResult;
+};
+
+/**
+ * Extend : Extends the properties of one or more source objects onto a target object. iterates through each source object and copies its
+ * own enumerable and own properties to the target object. The function then returns the updated target object.
+ * @returns {Object}: The target object after being extended with properties from the source objects.
+ */
+function extend() {
+  // Get the target object (the first argument)
+  const targetObject = arguments[0];
+
+  // Iterate through the rest of the arguments (source objects)
+  for (let i = 1; i < arguments.length; i++) {
+    // Get the current source object
+    const sourceObject = arguments[i];
+
+    // Copy properties from sourceObject to targetObject
+    for (const key in sourceObject) {
+      // Check if the property is present in the sourceObject
+      if (sourceObject.hasOwnProperty(key)) {
+        // Copy the property to the targetObject
+        targetObject[key] = sourceObject[key];
+      }
+    }
+  }
+
+  // Return the updated targetObject
+  return targetObject;
 };
