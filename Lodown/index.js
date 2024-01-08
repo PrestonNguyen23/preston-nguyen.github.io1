@@ -357,23 +357,21 @@ function every(collection, func) {
 function some(collection, func) {
   // Default value for the result
   let result = false;
-
+}
   // Use _.each to iterate through the collection
-  _.each(collection, function(element, index, arr) {
-    // Call <function> for every element with the parameters specified
-    const condition = func ? func(element, index, arr) : element;
-
-    // Check if the return value is truthy
-    if (condition) {
-      // If true, update the result and break the loop
-      result = true;
-      return false;
+  _.each = function(collection, iteratee) {
+    // Check if <collection> is an array
+    if (Array.isArray(collection)) {
+      for (var i = 0; i < collection.length; i++) {
+        iteratee(collection[i], i, collection);
+      }
+    } else {
+      // <collection> is an object
+      for (var key in collection) {
+        iteratee(collection[key], key, collection);
+      }
     }
-  });
-
-  // Return the final result
-  return result;
-};
+  };
 
 /**
  * Reduce : Reduces an array to a single value by applying a specified function to each element. The function takes the previous result,

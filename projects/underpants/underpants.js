@@ -223,15 +223,16 @@ _.contains = function(array, value) {
 */
 _.each = function(collection, iteratee) {
   // Check if <collection> is an array
-  if(Array.isArray(collection)) {
-    for(var i = 0; i < collection.length; i++) {
-        action(collection[i], i, collection);
+  if (Array.isArray(collection)) {
+    for (var i = 0; i < collection.length; i++) {
+      iteratee(collection[i], i, collection);
     }
-} else {
+  } else {
+    // <collection> is an object
     for (var key in collection) {
-        action(collection[key], key, collection);
+      iteratee(collection[key], key, collection);
     }
-}
+  }
 };
 
 /** _.unique

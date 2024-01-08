@@ -26,13 +26,48 @@ let males = _.filter(array, (customer) => customer.gender === 'male');
 return males.length;
 };
 
-var femaleCount;
+var femaleCount = function(array){
+    let females = _.filter(array, (customer) => customer.gender === "female");
+    return females.length;
+}
 
-var oldestCustomer;
+var oldestCustomer = function(customers){
+   // Use reduce to find the customer with the maximum age
+  var oldest = customers.reduce(function(prevOldest, currentCustomer) {
+    return (prevOldest.age || 0) > currentCustomer.age ? prevOldest : currentCustomer;
+  }, {});
 
-var youngestCustomer;
+  // Return the name of the oldest customer or an empty string if there are no customers
+  return oldest.name || '';
+}
 
-var averageBalance;
+var youngestCustomer = function(customers){
+var youngest = customers.reduce(function(prevYoungest, currentCustomer) {
+    return (prevYoungest.age || Infinity) < currentCustomer.age ? prevYoungest : currentCustomer;
+  }, {});
+
+  // Return the name of the youngest customer or an empty string if there are no customers
+  return youngest.name || '';
+}
+var averageBalance = function(customers){
+  // Use reduce to calculate the sum and count of valid balances
+  const { sum, count } = customers.reduce(
+    function(acc, customer) {
+      if (typeof customer.balance === 'number' && !isNaN(customer.balance)) {
+        acc.sum += customer.balance;
+        acc.count += 1;
+      }
+      return acc;
+    },
+    { sum: 0, count: 0 }
+  );
+
+  // Calculate the average
+  const average = count > 0 ? sum / count : 0;
+
+  return average;
+};
+
 
 var firstLetterCount;
 
