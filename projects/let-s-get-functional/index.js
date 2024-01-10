@@ -69,13 +69,78 @@ var averageBalance = function(customers){
 };
 
 
-var firstLetterCount;
+var firstLetterCount = function(customers, letter) {
+  // Use reduce to count the number of names that start with the given letter
+  const count = customers.reduce(function(acc, customer) {
+    // Assuming each customer has a 'name' property
+    if (
+      typeof customer.name === 'string' &&
+      customer.name.trim().charAt(0).toLowerCase() === letter.toLowerCase()
+    ) {
+      acc += 1;
+    }
+    return acc;
+  }, 0);
 
-var friendFirstLetterCount;
+  return count;
+};
 
-var friendsCount;
+var friendFirstLetterCount = function(customers, targetCustomer, letter) {
+  let countOfFriendsStartingWithLetter = 0;
 
-var topThreeTags;
+  each(customers, function(customer) {
+    if (
+      customer.name.toLowerCase() === targetCustomer.name.toLowerCase() &&
+      customer.friends && Array.isArray(customer.friends)
+    ) {
+      each(customer.friends, function(friend) {
+        if (
+          typeof friend.name === 'string' &&
+          friend.name.trim().charAt(0).toLowerCase() === letter.toLowerCase()
+        ) {
+          countOfFriendsStartingWithLetter++;
+        }
+      });
+    }
+  });
+
+  return countOfFriendsStartingWithLetter;
+};
+
+var friendsCount = function(customers, targetName) {
+  const namesWithTargetInFriends = [];
+
+  each(customers, function(customer) {
+    if (customer.friends && Array.isArray(customer.friends)) {
+      each(customer.friends, function(friend) {
+        if (friend.name.toLowerCase() === targetName.toLowerCase()) {
+          namesWithTargetInFriends.push(customer.name);
+        }
+      });
+    }
+  });
+
+  return namesWithTargetInFriends;
+};
+
+var topThreeTags = function(customers) {
+  const tagCounts = {};
+
+  each(customers, function(customer) {
+    if (customer.tags && Array.isArray(customer.tags)) {
+      each(customer.tags, function(tag) {
+        tag = tag.toLowerCase();
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+      });
+    }
+  });
+
+  const sortedTags = Object.keys(tagCounts).sort(function(a, b) {
+    return tagCounts[b] - tagCounts[a];
+  });
+
+  return sortedTags.slice(0, 3);
+};
 
 var genderCount;
 

@@ -111,8 +111,36 @@ function nth(list, position) {
 // deepEqual ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-function deepEqual() {
+function deepEqual(val1, val2) {
+ // Check if the values are strictly equal
+ if (val1 === val2) {
+  return true;
+}
 
+// Check if either value is null or not an object
+if (val1 == null || typeof val1 !== 'object' ||
+  val2 == null || typeof val2 !== 'object') {
+  return false;
+}
+
+// Get the keys of the objects
+var keys1 = Object.keys(val1);
+var keys2 = Object.keys(val2);
+
+// Check if the number of keys is the same
+if (keys1.length !== keys2.length) {
+  return false;
+}
+
+// Check if the values of corresponding keys are deepEqual
+for (var key of keys1) {
+  if (!keys2.includes(key) || !deepEqual(val1[key], val2[key])) {
+      return false;
+  }
+}
+
+// If all checks pass, the values are deepEqual
+return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
