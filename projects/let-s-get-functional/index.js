@@ -50,23 +50,15 @@ var youngest = customers.reduce(function(prevYoungest, currentCustomer) {
   return youngest.name || '';
 }
 var averageBalance = function(customers){
-  // Use reduce to calculate the sum and count of valid balances
-  const { sum, count } = customers.reduce(
-    function(acc, customer) {
-      if (typeof customer.balance === 'number' && !isNaN(customer.balance)) {
-        acc.sum += customer.balance;
-        acc.count += 1;
-      }
-      return acc;
-    },
-    { sum: 0, count: 0 }
-  );
+  if (!Array.isArray(customers) || customers.length === 0) {
+    return 0;
+  }
 
-  // Calculate the average
-  const average = count > 0 ? sum / count : 0;
+  const totalBalance = customers.reduce((sum, customer) => sum + customer.balance, 0);
+  const average = totalBalance / customers.length;
 
   return average;
-};
+}
 
 
 var firstLetterCount = function(customers, letter) {
@@ -85,64 +77,86 @@ var firstLetterCount = function(customers, letter) {
   return count;
 };
 
-var friendFirstLetterCount = function(customers, targetCustomer, letter) {
-  let countOfFriendsStartingWithLetter = 0;
+var friendFirstLetterCount = function(customers, customer, letter) {
+  if (!Array.isArray(customers) || !customer || !letter) {
+    return 0;
+  }
 
-  each(customers, function(customer) {
+  const targetCustomer = customers.find(c => c.name === customer.name);
+  if (!targetCustomer || !targetCustomer.friends || targetCustomer.friends.length === 0) {
+    return 0;
+  }
+
+  // Use reduce to count friends with names starting with the given letter
+  const count = targetCustomer.friends.reduce(function(acc, friend) {
     if (
-      customer.name.toLowerCase() === targetCustomer.name.toLowerCase() &&
-      customer.friends && Array.isArray(customer.friends)
+      typeof friend.name === 'string' &&
+      friend.name.trim().charAt(0).toLowerCase() === letter.toLowerCase()
     ) {
-      each(customer.friends, function(friend) {
-        if (
-          typeof friend.name === 'string' &&
-          friend.name.trim().charAt(0).toLowerCase() === letter.toLowerCase()
-        ) {
-          countOfFriendsStartingWithLetter++;
-        }
-      });
+      acc += 1;
     }
-  });
+    return acc;
+  }, 0);
 
-  return countOfFriendsStartingWithLetter;
+  return count;
 };
 
-var friendsCount = function(customers, targetName) {
-  const namesWithTargetInFriends = [];
+var friendsCount = function(customers, name) {
+  if (!Array.isArray(customers) || !name) {
+    return [];
+  }
 
-  each(customers, function(customer) {
-    if (customer.friends && Array.isArray(customer.friends)) {
-      each(customer.friends, function(friend) {
-        if (friend.name.toLowerCase() === targetName.toLowerCase()) {
-          namesWithTargetInFriends.push(customer.name);
-        }
-      });
-    }
-  });
+  const targetCustomer = customers.find(customer => customer.name === name);
+  if (!targetCustomer || !targetCustomer.friends || targetCustomer.friends.length === 0) {
+    return [];
+  }
 
-  return namesWithTargetInFriends;
+  // Use map to extract the names of customers who have the target customer in their friends list
+  const friendsNames = customers
+    .filter(customer => customer.friends.some(friend => friend.name === name))
+    .map(customer => customer.name);
+
+  return friendsNames;
 };
 
 var topThreeTags = function(customers) {
-  const tagCounts = {};
+  if (!Array.isArray(customers) || customers.length === 0) {
+    return [];
+  }
 
-  each(customers, function(customer) {
-    if (customer.tags && Array.isArray(customer.tags)) {
-      each(customer.tags, function(tag) {
-        tag = tag.toLowerCase();
-        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
-      });
-    }
-  });
+  // Flatten the tags array for all customers
+  const allTags = customers.reduce((tags, customer) => tags.concat(customer.tags || []), []);
 
-  const sortedTags = Object.keys(tagCounts).sort(function(a, b) {
-    return tagCounts[b] - tagCounts[a];
-  });
+  // Create a map to count the occurrences of each tag
+  const tagCountMap = allTags.reduce((countMap, tag) => {
+    countMap.set(tag, (countMap.get(tag) || 0) + 1);
+    return countMap;
+  }, new Map());
 
-  return sortedTags.slice(0, 3);
+  // Sort the tags based on their counts in descending order
+  const sortedTags = Array.from(tagCountMap.entries()).sort((a, b) => b[1] - a[1]);
+
+  // Extract the top three tags
+  const topThree = sortedTags.slice(0, 3).map(tagCount => tagCount[0]);
+
+  return topThree;
 };
 
-var genderCount;
+var genderCount = function(customers) {
+  if (!Array.isArray(customers) || customers.length === 0) {
+    return {};
+  }
+
+  // Use reduce to create a summary of genders
+  const summary = customers.reduce((genderSummary, customer) => {
+    const gender = customer.gender || 'unknown'; // Assuming gender is a property of the customer
+
+    genderSummary[gender] = (genderSummary[gender] || 0) + 1;
+    return genderSummary;
+  }, {});
+
+  return summary;
+};;
 
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
