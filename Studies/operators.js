@@ -16,14 +16,6 @@
  * 
  * 6. Ternary operators (A ? b : c): A shorthand way of writing an 'if....else' statement. It is represented by the "?" symbol and allows you to make decisions based on a condition.
  * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
- * 
  */
 
 // 1. Assignment operators
