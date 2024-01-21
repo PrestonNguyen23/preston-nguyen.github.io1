@@ -49,16 +49,23 @@ var youngest = customers.reduce(function(prevYoungest, currentCustomer) {
   // Return the name of the youngest customer or an empty string if there are no customers
   return youngest.name || '';
 }
-var averageBalance = function(customers){
-  if (!Array.isArray(customers) || customers.length === 0) {
-    return 0;
-  }
 
-  const totalBalance = customers.reduce((sum, customer) => sum + customer.balance, 0);
-  const average = totalBalance / customers.length;
 
-  return average;
+var averageBalance = function(customers) {
+   // Check if the array is not empty
+   if (customers.length === 0) {
+    return 0; // Return 0 if the array is empty to avoid division by zero
 }
+
+// Calculate the sum of balances
+const sum = customers.reduce((acc, balance) => acc + balance, 0);
+
+// Calculate the average balance
+const avgBalance = sum / customers.length;
+
+return avgBalance;
+}
+
 
 
 var firstLetterCount = function(customers, letter) {
@@ -77,12 +84,12 @@ var firstLetterCount = function(customers, letter) {
   return count;
 };
 
-var friendFirstLetterCount = function(customers, customer, letter) {
-  if (!Array.isArray(customers) || !customer || !letter) {
+var friendFirstLetterCount = function(customers, customerName, letter) {
+  if (!Array.isArray(customers) || !customerName || !letter) {
     return 0;
   }
 
-  const targetCustomer = customers.find(c => c.name === customer.name);
+  const targetCustomer = customers.find(c => c.name === customerName);
   if (!targetCustomer || !targetCustomer.friends || targetCustomer.friends.length === 0) {
     return 0;
   }
@@ -157,7 +164,7 @@ var genderCount = function(customers) {
 
   return summary;
 };;
-
+// npm start --prefix ./preston-nguyen.github.io1/projects/let-s-get-functional
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////

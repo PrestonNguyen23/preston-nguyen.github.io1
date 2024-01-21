@@ -6,7 +6,11 @@ function flatten() {
   let flattenedArray = arrays.reduce(function(result, currentArray) {
     return result.concat(currentArray);
   }, []);
+
+  return flattenedArray;
 }
+
+let result = flatten();
 
 
 // /////////////////////////////////////////////////////////////////////////////
