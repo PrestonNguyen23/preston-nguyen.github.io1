@@ -52,19 +52,24 @@ var youngest = customers.reduce(function(prevYoungest, currentCustomer) {
 
 
 var averageBalance = function(customers) {
-   // Check if the array is not empty
-   if (customers.length === 0) {
+  // Check if the array is not empty
+  if (customers.length === 0) {
     return 0; // Return 0 if the array is empty to avoid division by zero
+  }
+
+  // Calculate the sum of balances
+  const sum = customers.reduce((acc, customer) => {
+    // Extract the numerical value from the balance string using the unary plus operator
+    const balance = +customer.balance.replace(/[\$,]/g, '') || 0;
+    return acc + balance;
+  }, 0);
+
+  // Calculate the average balance
+  const avgBalance = sum / customers.length;
+
+  return avgBalance;
 }
 
-// Calculate the sum of balances
-const sum = customers.reduce((acc, balance) => acc + balance, 0);
-
-// Calculate the average balance
-const avgBalance = sum / customers.length;
-
-return avgBalance;
-}
 
 
 
